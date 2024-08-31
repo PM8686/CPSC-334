@@ -1,2 +1,1 @@
-# CPSC-334
-Creative Embedded Systems
+# CPSC 334: Creative Embedded Systems

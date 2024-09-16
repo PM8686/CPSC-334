@@ -10,6 +10,12 @@ python -m http.server 8000 &
 # Step 4: Open the default web browser with the local server URL
 xdg-open http://localhost:8000
 
+# Step 5: Wait for the browser to open, then simulate pressing F11 to go full screen
+sleep 5  # Wait for the browser to launch
+xdotool key F11
+
+
 # may need to use the below
+# sudo apt-get install xdotool
 # chmod +x start_server.sh
 # ./start_server

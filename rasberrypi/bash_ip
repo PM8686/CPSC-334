@@ -1,8 +1,14 @@
 #!/bin/bash
 
-DIR="$(cd "$(dirname "$0")" && pwd)"
+DIR=/home/student334/Desktop/CS334
 IP_ADDRESS=$(hostname -I)
 
-echo $IP_ADDRESS > ${DIR}/ip.md
 
-scp ${DIR}/ip.md primary@172.26.83.144:~/Desktop/ip.md
+echo $IP_ADDRESS > ${DIR}/rasberrypi/ip.md
+
+cd ${DIR}/rasberrypi
+git pull
+git add .
+git commit -m "updated IP"
+git push
+

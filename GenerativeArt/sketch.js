@@ -34,11 +34,11 @@ function draw() {
   background(255);
 
   if (is_growing) {
-    grow(); // Handle the growing circle state
+    grow(); // growing circle state
   } else if (millis() - delay_start >= delay_duration) {
     start_growing(); // Transition to the growing state
   } else {
-    delay(); // Handle the delay between ball drops
+    delay(); // delay between ball drops
   }
 
   bounce_balls(); // Update and draw bouncing balls
@@ -53,7 +53,7 @@ function initialize_vars() {
   inc_time_conv = 50 * (0.2 / inc_rate);
   circ_end = random(min_size * inc_time_conv, max_size * inc_time_conv);
 
-  // Define color options for balls
+  // Define pallette
   let red_ball = color(255, 0, 0);
   let yellow_ball = color(255, 255, 0);
   let green_ball = color(0, 255, 0);
@@ -128,7 +128,7 @@ function start_growing() {
 }
 
 function delay() {
-  // Handle the delay between ball drops with fading effect
+  // delay between ball drops with fading effect
   fill(
     prev_ball_color.levels[0],
     prev_ball_color.levels[1],
@@ -170,13 +170,13 @@ function bounce_balls() {
     ball.y_speed += gravity;
     ball.y += ball.y_speed;
 
-    wall_collision(ball); // Handle collisions with the walls
-    ball_collision(i); // Handle collisions with other balls
+    wall_collision(ball);
+    ball_collision(i);
   }
 }
 
 function wall_collision(ball) {
-  // Handle collisions with the walls of the canvas
+  // collisions with the walls of the canvas
   if (ball.x > width - ball.size / 2) {
     ball.x_speed *= -1;
     ball.x = width - ball.size / 2;
@@ -192,7 +192,7 @@ function wall_collision(ball) {
 }
 
 function ball_collision(current_index) {
-  // Handle collisions between balls
+  // collisions between balls
   for (let j = current_index + 1; j < bouncing_balls.length; j++) {
     let ball = bouncing_balls[current_index];
     let other_ball = bouncing_balls[j];

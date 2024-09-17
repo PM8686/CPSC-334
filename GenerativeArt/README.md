@@ -1,15 +1,61 @@
-### Standard Documentation Deliverables
+Here's a draft for the README file for your GitHub repository based on the provided information:
 
-In addition to the project specific deliverables lists above, you must also meet the following “standard documentation deliverables”. Throughout this course, we will ask you to document your work in order to slowly build a portfolio of your projects. Going forward, these types of standard documentation deliverables can be assumed to be required for all assignments unless specified otherwise.
+---
 
-***A blog post***
+# Generative Art Project
 
-Using the [Portfolio F24](https://www.notion.so/Portfolio-F24-62e7adddb8634a88b5a7f07211a8c8a9?pvs=21) page, make a blog post describing your art and process. The post should give an overview of your artistic vision along with details of your technical implementation. Be sure to include how you have specialized your generative art to *any* potential space. You may also choose to include how your decisions were motivated by your creative vision for the project. In the same vein, also address any technical *issues* you encountered in your work. Particularly focus on issues that other artists may encounter when developing a generative art display for this space and what solutions you arrived at.
+## Overview
+This project features a generative art piece created using p5.js. The art involves randomly sized and colored circles that appear at random locations on the canvas. Each circle gradually becomes more transparent until it disappears completely. Larger circles last longer, while smaller circles disappear more quickly. When the number of circles on the canvas reaches about 35, no new circles are added until all existing circles have disappeared, creating a repeating cycle.
 
-***A README***
+## Creative Concept
+The art symbolizes the process of letting go. As circles appear and fade, they represent how experiences grow in significance over time but eventually fade away. This concept reflects the transient nature of life and the inevitable cycle of letting go.
 
-On your GitHub repo add a readme that contains a short description and key information on reproducibility/installation/usage. This key information should be sufficient for a knowledgeable third party, outside the class, to replicate your design. This readme can/should be a subset of the material used in your blog post.
+## Installation and Usage
 
-***A video of your art***
+### Requirements
+- A modern web browser (e.g., Google Chrome, Firefox)
+- p5.js library
 
+### Installation
+1. **Clone the Repository:**
+   ```bash
+   git clone https://github.com/PM8686/CS334.git
+   ```
+2. **Navigate to the Project Directory:**
+   ```bash
+   cd CS334/GenerativeArt
+   ```
+3. **Set Up a Local Server:**
+   This project uses a local HTTP server to serve the files. You can use Python to set up a simple server.
+
+   If you have Python 3 installed:
+   ```bash
+   python -m http.server 7000
+   ```
+   If you have Python 2 installed:
+   ```bash
+   python -m SimpleHTTPServer 7000
+   ```
+
+### Usage
+1. **Open the Art in Your Browser:**
+   After starting the local server, open your web browser and navigate to:
+   ```
+   http://localhost:7000
+   ```
+   The generative art should now be visible and running.
+
+### Performance Considerations
+- The program dynamically adjusts to the screen size, modifying circle sizes and visibility duration accordingly.
+- For optimal performance on devices like the Raspberry Pi, the pixel density is reduced to accommodate various screen sizes.
+
+## Technical Details
+- **Languages and Libraries:** JavaScript, p5.js
+- **File Structure:** 
+  - `index.html` - HTML file to load the p5.js sketch
+  - `style.css` - CSS file for any required styling
+  - `sketch.js` - p5.js script implementing the generative art
+  - `start_script` - bash file to run the program and display it at full screen.
+
+## Video
 Include in the README a link to your video. The video should be as well produced as possible. It may be only a one-edit, one-shot production (:P), but it can still be 1) well-lit, 2) held steadily, 3) lacking giggles, unrelated persons or objects, etc. You can host the video wherever you like as long as the hosting platform supports in-browser playback (e.g. YouTube, Vimeo).

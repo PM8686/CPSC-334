@@ -14,7 +14,6 @@ sleep 2
 # Start Chromium in the background
 chromium-browser --new-window  http://localhost:7002 
 
-echo displaying lab1
 # may need to use the below
 # chmod +x start_script.sh
 # ./start_script

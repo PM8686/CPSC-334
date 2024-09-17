@@ -14,7 +14,6 @@ sleep 2
 # Start Chromium in the background
 chromium-browser --new-window  http://localhost:7000 
 
-exit
 # # Step 5: Use wmctrl to make the Chromium window fullscreen
 # # Get the window ID of the Chromium tab
 # WINDOW_ID=$(wmctrl -lx | grep 'chromium-browser.Chromium-browser' | awk '{print $1}')

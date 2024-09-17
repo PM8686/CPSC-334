@@ -12,21 +12,21 @@ sleep 2
 
 # Step 4: Open Chromium with the local server URL
 # Start Chromium in the background
-chromium-browser --new-window http://localhost:7000 &
+chromium-browser --new-window --start-fullscreen http://localhost:7000 
 
-# Give Chromium a moment to start and load the page
-sleep 5
+# # Give Chromium a moment to start and load the page
+# sleep 5
 
-# Step 5: Use wmctrl to make the Chromium window fullscreen
-# Get the window ID of the Chromium tab
-WINDOW_ID=$(wmctrl -lx | grep 'chromium-browser.Chromium-browser' | awk '{print $1}')
+# # Step 5: Use wmctrl to make the Chromium window fullscreen
+# # Get the window ID of the Chromium tab
+# WINDOW_ID=$(wmctrl -lx | grep 'chromium-browser.Chromium-browser' | awk '{print $1}')
 
-# Check if we got a window ID
-if [ -n "$WINDOW_ID" ]; then
-    wmctrl -ir "$WINDOW_ID" -b toggle,fullscreen
-else
-    echo "Chromium window not found"
-fi
+# # Check if we got a window ID
+# if [ -n "$WINDOW_ID" ]; then
+#     wmctrl -ir "$WINDOW_ID" -b toggle,fullscreen
+# else
+#     echo "Chromium window not found"
+# fi
 
 
 # may need to use the below

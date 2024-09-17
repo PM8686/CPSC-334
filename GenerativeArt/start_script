@@ -4,6 +4,7 @@ sleep 5
 # Navigate to the desired directory
 cd /home/student334/Desktop/CS334/GenerativeArt || { echo "Directory not found"; exit 1; }
 
+
 # Start the Python HTTP server on port 7002
 python -m http.server 7002 &
 

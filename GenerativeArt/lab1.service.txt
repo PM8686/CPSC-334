@@ -1,0 +1,15 @@
+This is the service file in systemd that allows for start_script to be run on startup.
+
+[Unit]
+Description=Generative Art Script
+After=network.target
+
+[Service]
+User=student334
+Environment="DISPLAY=:0"
+Environment="XAUTHORITY=/home/student334/.Xauthority"
+WorkingDirectory=/home/student334/Desktop/CS334/GenerativeArt
+ExecStart=/home/student334/Desktop/CS334/GenerativeArt/start_script
+
+[Install]
+WantedBy=default.target

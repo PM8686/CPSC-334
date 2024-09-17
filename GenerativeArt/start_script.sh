@@ -12,12 +12,7 @@ sleep 2
 
 # Step 4: Open Chromium with the local server URL
 # Start Chromium in the background
-chromium-browser --new-window  http://localhost:7000 &
-
-# # Give Chromium a moment to start and load the page
-sleep 5
-
-chromium-browser --start-fullscreen
+chromium-browser --new-window  http://localhost:7000 --start-fullscreen
 
 # # Step 5: Use wmctrl to make the Chromium window fullscreen
 # # Get the window ID of the Chromium tab

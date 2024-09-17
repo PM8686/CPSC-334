@@ -1,7 +1,3 @@
-Here's a draft for the README file for your GitHub repository based on the provided information:
-
----
-
 # Generative Art Project
 
 ## Overview
@@ -57,5 +53,11 @@ The art symbolizes the process of letting go. As circles appear and fade, they r
   - `sketch.js` - p5.js script implementing the generative art
   - `start_script` - bash file to run the program and display it at full screen.
 
-## Video
-Include in the README a link to your video. The video should be as well produced as possible. It may be only a one-edit, one-shot production (:P), but it can still be 1) well-lit, 2) held steadily, 3) lacking giggles, unrelated persons or objects, etc. You can host the video wherever you like as long as the hosting platform supports in-browser playback (e.g. YouTube, Vimeo).
+## Videos
+- **Full Screen**
+
+[![](https://markdown-videos-api.jorgenkh.no/youtube/jlBawYICgnc)](https://youtu.be/jlBawYICgnc)
+
+- **Resizable Window**
+
+[![](https://markdown-videos-api.jorgenkh.no/youtube/3S7aQnbZe1Y)](https://youtu.be/3S7aQnbZe1Y)

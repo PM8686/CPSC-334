@@ -10,10 +10,6 @@ python -m http.server 7002 &
 # Give the server a moment to start
 sleep 2
 
-# make default browser size full screen
-chromium-browser --new-window --start-fullscreen
-pkill -f chromium-browser
-sleep 5
 # Open Chromium with the local server URL
 # Start Chromium in the background
 chromium-browser --new-window  http://localhost:7002 

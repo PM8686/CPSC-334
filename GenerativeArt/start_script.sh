@@ -13,7 +13,7 @@ sleep 2
 # make default browser size full screen
 chromium-browser --new-window --start-fullscreen
 pkill chromium-browser
-
+sleep 5
 # Open Chromium with the local server URL
 # Start Chromium in the background
 chromium-browser --new-window  http://localhost:7002 

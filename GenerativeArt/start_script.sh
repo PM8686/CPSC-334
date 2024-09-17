@@ -4,15 +4,15 @@
 # Step 2: Navigate to the desired directory
 cd /home/student334/Desktop/CS334/GenerativeArt || { echo "Directory not found"; exit 1; }
 
-# Step 3: Start the Python HTTP server on port 7000
-python -m http.server 7000 &
+# Step 3: Start the Python HTTP server on port 7001
+python -m http.server 7001 &
 
 # Give the server a moment to start
 sleep 2
 
 # Step 4: Open Chromium with the local server URL
 # Start Chromium in the background
-chromium-browser --new-window  http://localhost:7000 
+chromium-browser --new-window  http://localhost:7001 
 
 # # Step 5: Use wmctrl to make the Chromium window fullscreen
 # # Get the window ID of the Chromium tab

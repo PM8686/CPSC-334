@@ -1,5 +1,5 @@
 #!/bin/bash
-
+sleep 5
 # Open a terminal
 # Navigate to the desired directory
 cd /home/student334/Desktop/CS334/GenerativeArt || { echo "Directory not found"; exit 1; }

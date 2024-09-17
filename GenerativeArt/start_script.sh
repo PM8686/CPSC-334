@@ -12,7 +12,7 @@ sleep 2
 
 # Step 4: Open Chromium with the local server URL
 # Start Chromium in the background
-chromium-browser --new-window --start-fullscreen http://localhost:7000 
+chromium-browser --new-window  http://localhost:7000 
 
 exit
 # # Step 5: Use wmctrl to make the Chromium window fullscreen

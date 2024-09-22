@@ -1,6 +1,5 @@
 import RPi.GPIO as GPIO # Import Raspberry Pi GPIO library
 import time
-# import Adafruit_ADS1x15
 
 btn_pin = 10
 switch_pin = 8
@@ -15,38 +14,60 @@ GPIO.setup(joypin_x, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(joypin_y, GPIO.IN, pull_up_down=GPIO.PUD_UP) 
 GPIO.setup(joypin_sw, GPIO.IN, pull_up_down=GPIO.PUD_UP) 
 
-# ADC = Adafruit_ADS1x15.ADS1115()
-# ADC.read_adc(X_CHANNEL, gain=GAIN)
+# Define modes
+MODE_ONE = 0
+MODE_TWO = 1
+MODE_THREE = 2
+MODE_OFF = 3
+mode = MODE_ONE
 
 def main():
     prev_btn = -1
     prev_switch = -1
-    start = time.time()
-    while True: # Run forever
-        print("x: ", GPIO.input(joypin_x), ", y: ", GPIO.input(joypin_y), ", sw: ", GPIO.input(joypin_sw))
 
-        # button
+    while True:
+        # Read joystick values
+        x = GPIO.input(joypin_x)
+        y = GPIO.input(joypin_y)
+        sw = GPIO.input(joypin_sw)
+
+        # Print joystick values
+        # print(f"x: {x}, y: {y}, sw: {sw}")
+
+        # Check button press
         if GPIO.input(btn_pin) != prev_btn:
-            # print(GPIO.input(btn_pin))
-            if GPIO.input(btn_pin) == GPIO.HIGH:
-                print("btn high")
-
-            elif GPIO.input(btn_pin) == GPIO.LOW:
-                print("btn low")
+            if GPIO.input(btn_pin) == GPIO.LOW:
+                if mode == MODE_ONE:
+                    if x == 0: print('Mode 1: a', end='')
+                    else: print('Mode 1: b', end='')
+                    if sw == 0: print('0', end='')
+                    else: print('1', end='')
+                    if y == 0: print('y', end='')
+                    else: print('z')
+                elif mode == MODE_TWO:
+                    if x == 0: print('Mode 2: x is 0', end='')
+                    else: print('Mode 2: x is 1', end='')
+                    if sw == 0: print(' (switch is 0)', end='')
+                    else: print(' (switch is 1)', end='')
+                    if y == 0: print(' (y is 0)', end='')
+                    else: print(' (y is 1)')
+                elif mode == MODE_THREE:
+                    if x == 0: print('Mode 3: Joystick left', end='')
+                    else: print('Mode 3: Joystick right', end='')
+                    if sw == 0: print(' (button pressed)', end='')
+                    else: print(' (button released)', end='')
+                    if y == 0: print(' (moving down)', end='')
+                    else: print(' (moving up)')
+                elif mode == MODE_OFF:
+                    return  # Exit the program
             prev_btn = GPIO.input(btn_pin)
 
-        # switch
+        # Check switch state
         if GPIO.input(switch_pin) != prev_switch:
-            if GPIO.input(switch_pin) == GPIO.HIGH:
-                print("on")
-
-            elif GPIO.input(switch_pin) == GPIO.LOW:
-                print("off")
-                # return
-
+            if GPIO.input(switch_pin) == GPIO.LOW:  # Switch is on
+                mode = (mode + 1) % 4  # Cycle through modes
             prev_switch = GPIO.input(switch_pin)
 
-
-        time.sleep(.25)
+        time.sleep(0.25)
 
 main()

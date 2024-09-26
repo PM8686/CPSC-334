@@ -19,3 +19,5 @@ Switch:
 Raspi and ESP32 communication:
 - https://pythonhosted.org/pyserial/shortintro.html#readline
 - used pyserial
+- https://docs.espressif.com/projects/esp-idf/en/latest/esp32/get-started/establish-serial-connection.html
+    - to find the port being used (ls /dev/tty*)

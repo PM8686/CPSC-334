@@ -9,3 +9,13 @@ Joystick:
 - coded up the joystick
 - analogRead used for analog
 - must set the pin for digital read using pinMode(pin_num, INPUT_PULLUP)
+
+Button:
+- used Joystick code to configure the button
+
+Switch:
+- copied button code, it worked perfectly
+
+Raspi and ESP32 communication:
+- https://pythonhosted.org/pyserial/shortintro.html#readline
+- used pyserial

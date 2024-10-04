@@ -1,3 +1,13 @@
+## Files:
+- ESP32_game: arduino code for the ESP32
+- game: past arduino code for the ESP32 (contains some old functions I want to refer to, used OLED)
+- game_laptop.py: final game code
+- log.md: the log
+- task1.py: simple functions that test the switch, button and joystick functionality
+- test.py: testing the game using just software (all hardware replaced with computer keys)
+
+---------------------
+
 ## Task 1: 
 Demonstrate 3 Modes of Operation with a Button, a Switch, a Joystick
 - button

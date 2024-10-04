@@ -54,4 +54,12 @@ Demonstrate 3 Modes of Operation with a Button, a Switch, a Joystick
 
 - Enclosure part II:
     - same ideas as the last enclosure, but now with no screen and an added port to connect to my computer
-    - 
+    - made the first enclosure out of cardboard, it was too small so remade it with much larger dimensions
+    - first time at the part where we insert the components, found the bolts great for the switch and joystick, used lots of hot glue for the button.
+
+- Added Features:
+    - since the screen is much bigger I was able to add more features:
+        - life counter
+        - score
+        - number of hits
+        - a game start screen, a win screen, and a lose screen.

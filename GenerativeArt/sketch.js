@@ -1,3 +1,6 @@
+// ******************************************
+//     THIS DOES NOT WORK ON RASBERRPY PI
+// ******************************************
 let balls = [];
 let max_size = 0;
 let min_size = 0;

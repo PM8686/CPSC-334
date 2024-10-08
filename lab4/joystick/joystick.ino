@@ -31,5 +31,5 @@ void loop() {
   Serial.printf(" button = %d", button);
   Serial.printf(" switch = %d\n", sw1tch);
 
-  delay(100);  // delay in between reads for clear read from serial
+  delay(50);  // delay in between reads for clear read from serial
 }

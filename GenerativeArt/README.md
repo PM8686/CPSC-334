@@ -55,9 +55,7 @@ The art symbolizes the process of letting go. As circles appear and fade, they r
 
 ## Videos
 - **Full Screen**
-
 [![](https://markdown-videos-api.jorgenkh.no/youtube/jlBawYICgnc)](https://youtu.be/jlBawYICgnc)
 
 - **Resizable Window**
-
 [![](https://markdown-videos-api.jorgenkh.no/youtube/3S7aQnbZe1Y)](https://youtu.be/3S7aQnbZe1Y)

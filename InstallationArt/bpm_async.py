@@ -1,16 +1,18 @@
 import pygame
-import math
-import socket
+import asyncio
+import threading
 
 # Replace with the ESP32 IP address
-esp32_ip = "10.67.70.186"  
+esp32_ip = "10.67.70.186"
 port = 80
 
 # Initialize pygame
 pygame.init()
 
 # Set up fullscreen display
+# screen = pygame.display.set_mode((600, 400))
 screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+
 screen_width, screen_height = screen.get_size()
 
 # Colors
@@ -27,12 +29,34 @@ clock = pygame.time.Clock()
 # Set font for displaying BPM
 font = pygame.font.SysFont(None, 36)
 
-def receive_data():
-    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-        s.connect((esp32_ip, port))
-        data = s.recv(1024)  # Receive data from ESP32
-        return data.decode()
-    
+# Global variable to store BPM
+bpm = 70  # Default value, updated asynchronously
+
+async def receive_data():
+    global bpm
+    while True:
+        try:
+            # Open a connection to the ESP32
+            reader, writer = await asyncio.open_connection(esp32_ip, port)
+
+            # Receive data from ESP32
+            data = await reader.read(1024)  # Read up to 1024 bytes
+            bpm = int(data.decode().strip())
+            print(bpm)
+
+            # Close the connection
+            writer.close()
+            await writer.wait_closed()
+
+        except Exception as e:
+            print("Failed to receive data:", e)
+
+        # Optional: Wait for a short period before the next attempt
+        await asyncio.sleep(1)  # Adjust the sleep duration as necessary
+
+def start_async_loop():
+    asyncio.run(receive_data())
+
 # Function to draw a circle as the heart beat, scaling based on screen size
 def draw_heart(scale):
     radius = int(0.1 * min(screen_width, screen_height) * scale)  # 10% of smaller dimension
@@ -56,17 +80,15 @@ def render_text(text):
     screen.blit(text_surface, text_rect)
 
 # Main loop
-def run_heart_beat(initial_bpm):
-    bpm = initial_bpm  # Initialize bpm
+def run_heart_beat():
     scale = 1.0  # Initial scale for heart size
     lub_increase_duration = 100  # "Lub" increase time (100 ms)
     lub_decrease_duration = 100  # "Lub" decrease time (100 ms)
     dub_increase_duration = 100  # "Dub" increase time (100 ms)
     dub_decrease_duration = 100  # "Dub" decrease time (100 ms)
-    
-    lull_time = bpm_to_lull_time(bpm)  # Calculate lull time based on BPM
-    total_cycle_time = (lub_increase_duration + lub_decrease_duration +
-                        dub_increase_duration + dub_decrease_duration + lull_time)  # Full heartbeat cycle time
+
+    # Start the asynchronous receive task in a separate thread
+    threading.Thread(target=start_async_loop, daemon=True).start()
 
     running = True
     while running:
@@ -77,11 +99,6 @@ def run_heart_beat(initial_bpm):
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:  # Press ESC to quit
                     running = False
-        # try:
-        #     bpm = int(receive_data())  # Ensure bpm is an integer
-        #     print(bpm)
-        # except Exception as e:
-        #     print("Failed to receive data:", e)
 
         # Update lull time based on the current bpm
         lull_time = bpm_to_lull_time(bpm)
@@ -106,7 +123,6 @@ def run_heart_beat(initial_bpm):
             t = (elapsed_time - lub_increase_duration - lub_decrease_duration - dub_increase_duration) / dub_decrease_duration
             scale = lerp(1.4, 1.0, t)  # Scale from 1.4 to 1.0
         else:  # Lull phase
-            t = (elapsed_time - lub_increase_duration - lub_decrease_duration - dub_increase_duration - dub_decrease_duration) / lull_time
             scale = 1.0  # During the lull, keep scale at resting size
 
         # Clear the screen
@@ -122,10 +138,10 @@ def run_heart_beat(initial_bpm):
         pygame.display.flip()
 
         # Cap the frame rate
-        clock.tick(60)
+        clock.tick(30)  # Lowered to 30 FPS to optimize for Pi performance
 
-# Example of running the heart beat with adjustable BPM
-run_heart_beat(70)  # Start with an initial BPM of 70
+# Start heartbeat
+run_heart_beat()
 
-# Quit pygame
+# Quit pygame when done
 pygame.quit()

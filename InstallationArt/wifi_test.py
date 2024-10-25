@@ -1,16 +1,19 @@
 import socket
 
-# Set up the UDP server
-udp_ip = "192.168.56.1"  # This should be the IP address of the computer running this script
-udp_port = 1234  # Port number should match the one used on the ESP32
+# Replace with the ESP32 IP address
+esp32_ip = "10.67.70.186"  
+port = 80
 
-# Create a UDP socket
-sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-sock.bind((udp_ip, udp_port))
+def receive_data():
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        s.connect((esp32_ip, port))
+        data = s.recv(1024)  # Receive data from ESP32
+        return data.decode()
 
-print(f"Listening for UDP messages on {udp_ip}:{udp_port}...")
-
-while True:
-    # Receive data from the ESP32
-    data, addr = sock.recvfrom(1024)  # Buffer size is 1024 bytes
-    print(f"Received message from {addr}: {data.decode('utf-8')}")
+if __name__ == "__main__":
+    while True:
+        try:
+            data = receive_data()
+            print(data)
+        except Exception as e:
+            print("Failed to receive data:", e)

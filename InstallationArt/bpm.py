@@ -1,7 +1,7 @@
 import pygame
 import math
 import socket
-import time  # Import time for time-based checks
+import asyncio
 
 # Replace with the ESP32 IP address
 esp32_ip = "10.67.70.186"  
@@ -11,7 +11,8 @@ port = 80
 pygame.init()
 
 # Set up fullscreen display
-screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+# screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+screen = pygame.display.set_mode((600, 400))
 screen_width, screen_height = screen.get_size()
 
 # Colors
@@ -28,11 +29,25 @@ clock = pygame.time.Clock()
 # Set font for displaying BPM
 font = pygame.font.SysFont(None, 36)
 
-def receive_data():
-    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-        s.connect((esp32_ip, port))
-        data = s.recv(1024)  # Receive data from ESP32
-        return data.decode()
+# Global variable to store BPM
+bpm = 70  # Default value, updated asynchronously
+
+async def receive_data():
+    global bpm
+    try:
+        # Open a connection to the ESP32
+        reader, writer = await asyncio.open_connection(esp32_ip, port)
+
+        # Receive data from ESP32
+        data = await reader.read(1024)  # Read up to 1024 bytes
+        bpm = int(data.decode().strip())
+
+        # Close the connection
+        writer.close()
+        await writer.wait_closed()
+
+    except Exception as e:
+        print("Failed to receive data:", e)
 
 # Function to draw a circle as the heart beat, scaling based on screen size
 def draw_heart(scale):
@@ -57,8 +72,7 @@ def render_text(text):
     screen.blit(text_surface, text_rect)
 
 # Main loop
-def run_heart_beat(initial_bpm):
-    bpm = initial_bpm  # Initialize bpm
+def run_heart_beat():
     scale = 1.0  # Initial scale for heart size
     lub_increase_duration = 100  # "Lub" increase time (100 ms)
     lub_decrease_duration = 100  # "Lub" decrease time (100 ms)
@@ -68,9 +82,9 @@ def run_heart_beat(initial_bpm):
     lull_time = bpm_to_lull_time(bpm)  # Calculate lull time based on BPM
     total_cycle_time = (lub_increase_duration + lub_decrease_duration +
                         dub_increase_duration + dub_decrease_duration + lull_time)  # Full heartbeat cycle time
-
-    # Track last time data was fetched
-    last_data_fetch_time = time.time()  # Record the start time
+    
+    last_received_time = pygame.time.get_ticks()  # Start timer
+    wait_interval = 1000
 
     running = True
     while running:
@@ -82,15 +96,12 @@ def run_heart_beat(initial_bpm):
                 if event.key == pygame.K_ESCAPE:  # Press ESC to quit
                     running = False
 
-        # Fetch new BPM data every second
-        current_time = time.time()
-        if current_time - last_data_fetch_time >= 1:  # Check if 1 second has passed
-            try:
-                bpm = int(receive_data())  # Ensure bpm is an integer
-                print(bpm)
-            except Exception as e:
-                print("Failed to receive data:", e)
-            last_data_fetch_time = current_time  # Reset last fetch time
+        # Run receive_data in the background
+                # Check if it's time to receive data
+        current_time = pygame.time.get_ticks()
+        if current_time - last_received_time >= wait_interval: # 1 second
+            asyncio.create_task(receive_data())
+            last_received_time = pygame.time.get_ticks()  # Start timer
 
         # Update lull time based on the current bpm
         lull_time = bpm_to_lull_time(bpm)
@@ -98,7 +109,8 @@ def run_heart_beat(initial_bpm):
                             dub_increase_duration + dub_decrease_duration + lull_time)
 
         # Get the current time
-        elapsed_time = pygame.time.get_ticks() % total_cycle_time
+        current_time = pygame.time.get_ticks()
+        elapsed_time = current_time % total_cycle_time
 
         # Smooth transitions for the four-phase lub-dub process
         if elapsed_time <= lub_increase_duration:  # Lub increase phase
@@ -129,10 +141,14 @@ def run_heart_beat(initial_bpm):
         pygame.display.flip()
 
         # Cap the frame rate
-        clock.tick(30) 
+        clock.tick(30)  # Lowered to 30 FPS to optimize for Pi performance
 
-# Example of running the heart beat with adjustable BPM
-run_heart_beat(70)  # Start with an initial BPM of 70
+# Run the asynchronous receive_data function and main loop together
+async def main():
+    run_heart_beat()
 
-# Quit pygame
+# Start the asyncio event loop
+asyncio.run(main())
+
+# Quit pygame when done
 pygame.quit()

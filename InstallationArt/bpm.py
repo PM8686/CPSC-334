@@ -77,11 +77,15 @@ def run_heart_beat(initial_bpm):
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:  # Press ESC to quit
                     running = False
-        try:
-            bpm = int(receive_data())  # Ensure bpm is an integer
-            print(bpm)
-        except Exception as e:
-            print("Failed to receive data:", e)
+        # Fetch new BPM data every second
+        current_time = time.time()
+        if current_time - last_data_fetch_time >= 1:  # Check if 1 second has passed
+            try:
+                bpm = int(receive_data())  # Ensure bpm is an integer
+                print(bpm)
+            except Exception as e:
+                print("Failed to receive data:", e)
+            last_data_fetch_time = current_time  # Reset last fetch time
 
         # Update lull time based on the current bpm
         lull_time = bpm_to_lull_time(bpm)

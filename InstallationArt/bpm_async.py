@@ -52,7 +52,7 @@ async def receive_data():
             print("Failed to receive data:", e)
 
         # Optional: Wait for a short period before the next attempt
-        await asyncio.sleep(1)  # Adjust the sleep duration as necessary
+        await asyncio.sleep(.5)  # Adjust the sleep duration as necessary
 
 def start_async_loop():
     asyncio.run(receive_data())

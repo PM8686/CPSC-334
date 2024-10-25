@@ -1,6 +1,7 @@
 import pygame
 import math
 import socket
+import time  # Import time for time-based checks
 
 # Replace with the ESP32 IP address
 esp32_ip = "10.67.70.186"  
@@ -32,7 +33,7 @@ def receive_data():
         s.connect((esp32_ip, port))
         data = s.recv(1024)  # Receive data from ESP32
         return data.decode()
-    
+
 # Function to draw a circle as the heart beat, scaling based on screen size
 def draw_heart(scale):
     radius = int(0.1 * min(screen_width, screen_height) * scale)  # 10% of smaller dimension
@@ -68,6 +69,9 @@ def run_heart_beat(initial_bpm):
     total_cycle_time = (lub_increase_duration + lub_decrease_duration +
                         dub_increase_duration + dub_decrease_duration + lull_time)  # Full heartbeat cycle time
 
+    # Track last time data was fetched
+    last_data_fetch_time = time.time()  # Record the start time
+
     running = True
     while running:
         # Handle events
@@ -77,6 +81,7 @@ def run_heart_beat(initial_bpm):
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:  # Press ESC to quit
                     running = False
+
         # Fetch new BPM data every second
         current_time = time.time()
         if current_time - last_data_fetch_time >= 1:  # Check if 1 second has passed
@@ -93,8 +98,7 @@ def run_heart_beat(initial_bpm):
                             dub_increase_duration + dub_decrease_duration + lull_time)
 
         # Get the current time
-        current_time = pygame.time.get_ticks()
-        elapsed_time = current_time % total_cycle_time
+        elapsed_time = pygame.time.get_ticks() % total_cycle_time
 
         # Smooth transitions for the four-phase lub-dub process
         if elapsed_time <= lub_increase_duration:  # Lub increase phase
@@ -110,7 +114,6 @@ def run_heart_beat(initial_bpm):
             t = (elapsed_time - lub_increase_duration - lub_decrease_duration - dub_increase_duration) / dub_decrease_duration
             scale = lerp(1.4, 1.0, t)  # Scale from 1.4 to 1.0
         else:  # Lull phase
-            t = (elapsed_time - lub_increase_duration - lub_decrease_duration - dub_increase_duration - dub_decrease_duration) / lull_time
             scale = 1.0  # During the lull, keep scale at resting size
 
         # Clear the screen
@@ -126,7 +129,7 @@ def run_heart_beat(initial_bpm):
         pygame.display.flip()
 
         # Cap the frame rate
-        clock.tick(60)
+        clock.tick(30) 
 
 # Example of running the heart beat with adjustable BPM
 run_heart_beat(70)  # Start with an initial BPM of 70

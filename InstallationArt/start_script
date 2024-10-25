@@ -1,0 +1,9 @@
+#!/bin/bash
+sleep 5
+# Open a terminal
+# Navigate to the desired directory
+cd /home/student334/Desktop/CS334/InstallationArt || { echo "Directory not found"; exit 1; }
+
+
+# Start the Python HTTP server on port 7002
+python bpm_async.py

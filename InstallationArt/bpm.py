@@ -3,7 +3,7 @@ import math
 import socket
 
 # Replace with the ESP32 IP address
-esp32_ip = "10.67.70.186"  
+esp32_ip = "10.67.72.244"  
 port = 80
 
 # Initialize pygame

@@ -74,6 +74,9 @@ void setup() {
 
 void loop() {
 
+  // Handle client connection, only start doing measurements if connected to a client
+  WiFiClient client = server.available();
+  if (client) {
   // 1. Read Photoresistor Value
   int photoValue = analogRead(photoPin);  // Read analog value from photoresistor
   // Serial.print("Photoresistor (GPIO 34) Value: ");
@@ -93,9 +96,7 @@ void loop() {
   readUltrasonicSensor();
 
 
-    // Handle client connection
-  WiFiClient client = server.available();
-  if (client) {
+
     Serial.println("client connected");
     String request = client.readStringUntil('\r');  // Read client request
     client.flush();

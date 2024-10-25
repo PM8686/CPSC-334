@@ -74,6 +74,9 @@ def run_heart_beat(initial_bpm):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:  # Press ESC to quit
+                    running = False
         try:
             bpm = int(receive_data())  # Ensure bpm is an integer
             print(bpm)
@@ -119,7 +122,7 @@ def run_heart_beat(initial_bpm):
         pygame.display.flip()
 
         # Cap the frame rate
-        # clock.tick(60)
+        clock.tick(60)
 
 # Example of running the heart beat with adjustable BPM
 run_heart_beat(70)  # Start with an initial BPM of 70

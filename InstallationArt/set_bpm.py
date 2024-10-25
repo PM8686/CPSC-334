@@ -4,9 +4,9 @@ import math
 # Initialize pygame
 pygame.init()
 
-# Screen dimensions
-screen_width, screen_height = 800, 600
-screen = pygame.display.set_mode((screen_width, screen_height))
+# Screen dimensions for fullscreen mode
+screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+screen_width, screen_height = screen.get_size()
 
 # Colors
 BLACK = (0, 0, 0)
@@ -22,13 +22,14 @@ clock = pygame.time.Clock()
 # Set font for displaying BPM
 font = pygame.font.SysFont(None, 36)
 
-# Function to draw a circle as the heart beat
+# Function to draw a circle as the heart beat, with radius based on screen size
 def draw_heart(scale):
-    pygame.draw.circle(screen, RED, (screen_width // 2, screen_height // 2), int(50 * scale))
+    radius = int(0.1 * min(screen_width, screen_height) * scale)  # Radius is 10% of the smaller screen dimension
+    center_x, center_y = screen_width // 2, screen_height // 2
+    pygame.draw.circle(screen, RED, (center_x, center_y), radius)
 
 # Function to convert BPM to lull time in milliseconds (the time between lub-dub sequences)
 def bpm_to_lull_time(bpm):
-    # Lull time is adjusted by the BPM (shorter for faster BPM, longer for slower)
     total_interval = 60000 / bpm  # Total time between heart beats
     lub_dub_duration = 500  # Total time for lub-dub (fixed)
     return total_interval - lub_dub_duration  # Lull is the remaining time
@@ -40,7 +41,8 @@ def lerp(start, end, t):
 # Function to render text on the screen
 def render_text(text, position):
     text_surface = font.render(text, True, WHITE)
-    screen.blit(text_surface, position)
+    text_rect = text_surface.get_rect(center=position)
+    screen.blit(text_surface, text_rect)
 
 # Main loop
 def run_heart_beat(initial_bpm):
@@ -100,14 +102,14 @@ def run_heart_beat(initial_bpm):
         # Draw the circle based on the current scale
         draw_heart(scale)
 
-        # Display the current BPM on the screen
-        render_text(f"BPM: {bpm}", (screen_width - 150, 50))
+        # Display the current BPM on the screen, centered at the top
+        render_text(f"BPM: {bpm}", (screen_width // 2, 50))
 
         # Update the display
         pygame.display.flip()
 
         # Cap the frame rate
-        # clock.tick(60)
+        clock.tick(60)
 
 # Example of running the heart beat with adjustable BPM
 run_heart_beat(70)  # Start with an initial BPM of 70

@@ -7,12 +7,7 @@ port = 80
 def receive_data():
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         s.connect((esp32_ip, port))
-        data = b''  # Initialize an empty bytes object
-        while True:
-            part = s.recv(1024)  # Receive data in chunks
-            data += part  # Append received data
-            if len(part) < 1024:  # Break when no more data is coming in
-                break
+        data = s.recv(1024)  # Receive data from ESP32
         return data.decode()
 
 if __name__ == "__main__":

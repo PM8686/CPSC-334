@@ -2,6 +2,7 @@
 
 Servo myServo;
 int servoPin = 4;
+int angle = 0;
 
 void setup() {
   // put your setup code here, to run once:
@@ -11,11 +12,11 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-  myServo.write(30);
+  myServo.write(0);
   delay(1000);
   Serial.println("hi");
 
-  myServo.write(60);
+  myServo.write(180);
   delay(1000);
 
 }

@@ -40,7 +40,6 @@ void loop() {
 	myStepper.step(stepsPerRevolution);
 	
   // put your main code here, to run repeatedly:
-  myServo.write(30);
   delay(1000);
 
 	// // Rotate CCW quickly at 10 RPM

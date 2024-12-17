@@ -1,61 +1,82 @@
-# Generative Art Project
+# Claustrophobic Robot
 
 ## Overview
-This project features a generative art piece created using p5.js. The art involves randomly sized and colored circles that appear at random locations on the canvas. Each circle gradually becomes more transparent until it disappears completely. Larger circles last longer, while smaller circles disappear more quickly. When the number of circles on the canvas reaches about 35, no new circles are added until all existing circles have disappeared, creating a repeating cycle.
+The Claustrophobic Robot is my attempt to capture what it might feel like for a machine to experience fear. It’s a robot built to navigate its environment, but when the walls close in and its space gets too tight, it starts to panic.
+Using sensors, motors, and servos, the robot reacts to its surroundings in ways that mimic living things. At first, it moves forward calmly, trying to find a clear path. But when it gets too close to an obstacle, it freezes, spins, and eventually spirals into a frantic state: its servos flailing, its buzzer screeching, its motions showing that it is trapped.
 
 ## Creative Concept
-The art symbolizes the process of letting go. As circles appear and fade, they represent how experiences grow in significance over time but eventually fade away. This concept reflects the transient nature of life and the inevitable cycle of letting go.
+Throughout this semester, I have been interested in how simple behaviors performed by an object can make it appear alive. Through giving the robot claustrophobic behavior, it becomes very easy to identify and even empathize with the robot and want to free it from its trap. This project gives a machine a personality and the idea of vulnerability. The servos act as its “arms,” moving smoothly when it’s calm and jerking erratically when it’s overwhelmed. The way it turns and stops feels like it’s trying to escape something it.
+
+The Claustrophobic Robot is a machine, but with very simple motions, it reacts in ways that feel human. So much so that when it is panicing, people want to stop and help.
+
 
 ## Installation and Usage
 
 ### Requirements
-- A modern web browser (e.g., Google Chrome, Firefox)
-- p5.js library
+- **Hardware:**
+  - ESP32 microcontroller
+  - Adafruit Motor Shield v2
+  - Ultrasonic distance sensor
+  - Servo motors (2x)
+  - DC motors (2x)
+- **Software:**
+  - Arduino IDE
+  - Adafruit Motor Shield library
+  - ESP32Servo library
 
 ### Installation
-1. **Clone the Repository:**
-   ```bash
-   git clone https://github.com/PM8686/CS334.git
-   ```
-2. **Navigate to the Project Directory:**
-   ```bash
-   cd CS334/GenerativeArt
-   ```
-3. **Set Up a Local Server:**
-   This project uses a local HTTP server to serve the files. You can use Python to set up a simple server.
-
-   If you have Python 3 installed:
-   ```bash
-   python -m http.server 7000
-   ```
-   If you have Python 2 installed:
-   ```bash
-   python -m SimpleHTTPServer 7000
-   ```
+1. **Download the Code from the Github Repository**
+   - Use this link: https://github.com/PM8686/CS334/tree/main/m6_FinalProject
+2. **Open the Code in Arduino IDE:**
+   - Navigate to the `final` directory and open the `.ino` file.
+3. **Install Dependencies:**
+   - Ensure the required libraries (Adafruit Motor Shield, ESP32Servo) are installed in Arduino IDE.
+4. **Upload Code:**
+   - Connect the ESP32 via USB and upload the code to the microcontroller.
 
 ### Usage
-1. **Open the Art in Your Browser:**
-   After starting the local server, open your web browser and navigate to:
-   ```
-   http://localhost:7000
-   ```
-   The generative art should now be visible and running.
-
-### Performance Considerations
-- The program dynamically adjusts to the screen size, modifying circle sizes and visibility duration accordingly.
-- For optimal performance on devices like the Raspberry Pi, the pixel density is reduced to accommodate various screen sizes.
+1. Assemble the hardware components as per the wiring instructions in the code comments and the circuit diagram below.
+2. Power on the robot and place it in an open space.
+3. Observe its behavior as it navigates its surroundings and reacts to tight spaces.
 
 ## Technical Details
-- **Languages and Libraries:** JavaScript, p5.js
-- **File Structure:** 
-  - `index.html` - HTML file to load the p5.js sketch
-  - `style.css` - CSS file for any required styling
-  - `sketch.js` - p5.js script implementing the generative art
-  - `start_script` - bash file to run the program and display it at full screen.
+
+### Features
+- **Navigation:** The robot moves forward, searching for a clear path using its ultrasonic distance sensor.
+- **Obstacle Avoidance:** When detecting an obstacle within 15 cm, it turns left to find a new path.
+- **Panic Mode:** After multiple failed attempts to escape, the robot enters a "panic" state, with erratic movements and sound effects.
+- **Lifelike Motion:** Two servos simulate "arms" that move calmly when navigating but jerk erratically during panic.
+
+### File Structure
+- **final**: This directory contains the final version of the code for the robot
+   - `final.ino` - Main Arduino code for robot behavior.
+   - `melodies.h` - (Optional) File for storing sound patterns for the buzzer.
+   - `pitches.h` - (Optional) File for tone definitions used by the buzzer.
+- **test_components**: This directory contains subdirectories and files used to test individual components of the robot.
+Each subdirectory includes relevant `.ino` files and additional supporting files (if needed). These tests ensure all components function as expected before integrating them into the main project.
+   - `Blink_ESP32` - Contains a basic example to test blinking an LED using the ESP32 microcontroller.  
+   - `button` - Code to test button input functionality.  
+   - `buzzer` - Code to test buzzer tones and sound output.  
+   - `DistSensor` - Code to test the ultrasonic distance sensor for measuring proximity.  
+   - `I2C_test` - Example code for testing communication with I2C devices.  
+   - `LSM6DS3_gyro` - Example for testing the LSM6DS3 gyroscope sensor functionality.  
+   - `Motor` - Code to test the basic operation of a DC motor.  
+   - `MotorShield_DCmotors` - Example code to control DC motors using the Adafruit Motor Shield.  
+   - `MPU6050_gyro` - Code to test the MPU6050 gyroscope sensor.  
+   - `Servo` - Code to test servo motor functionality.  
+   - `switch` - Code to test functionality for switch inputs.  
+   - `turn` - Code to test the turning logic for the robot's movement.  
+
+
+### States
+1. **Normal:** Calm forward motion.
+2. **Turning:** Adjusting direction to avoid obstacles.
+3. **Panic:** Erratic movements searching for a way out.
+
+### Circuit Diagram
+<img src="circuit_diagram.jpg" alt="Circuit Diagram" width="800">
+
 
 ## Videos
-- **Full Screen**
-[![](https://markdown-videos-api.jorgenkh.no/youtube/jlBawYICgnc)](https://youtu.be/jlBawYICgnc)
-
-- **Resizable Window**
-[![](https://markdown-videos-api.jorgenkh.no/youtube/3S7aQnbZe1Y)](https://youtu.be/3S7aQnbZe1Y)
+- **Live Demo:**  
+  [YouTube Link](https://youtu.be/7eodidrG3LI)
